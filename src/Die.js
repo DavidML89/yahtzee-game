@@ -16,7 +16,8 @@ class Die extends Component {
 
   render() {
     let classes = `Die fas fa-dice-${this.props.numberWords[this.props.val - 1]} `;
-    if (this.props.locked) classes += "Die-locked";
+    if (this.props.locked) classes += "Die-locked ";
+    if (this.props.isRolling) classes += "Die-rolling ";
     return (
       <i
         className={classes}

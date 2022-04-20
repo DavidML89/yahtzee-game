@@ -13,6 +13,7 @@ class Game extends Component {
       dice: Array.from({ length: NUM_DICE }),
       locked: Array(NUM_DICE).fill(false),
       rollsLeft: NUM_ROLLS,
+      isRolling: false,
       scores: {
         ones: undefined,
         twos: undefined,
@@ -36,15 +37,17 @@ class Game extends Component {
 
   roll(evt) {
     // roll dice whose indexes are in reroll
-    // if (this.state.rollsLeft > 0) {
       this.setState(st => ({
+        isRolling: true,
         dice: st.dice.map((d, i) =>
           st.locked[i] ? d : Math.ceil(Math.random() * 6)
         ),
         locked: st.rollsLeft > 1 ? st.locked : Array(NUM_DICE).fill(true),
         rollsLeft: st.rollsLeft - 1
       }));
-    // }
+      setTimeout(() => {
+        this.setState( { isRolling: false});
+      }, 1000);
   }
 
   toggleLocked(idx) {
@@ -75,11 +78,12 @@ class Game extends Component {
       <div className='Game'>
         <header className='Game-header'>
           <h1 className='App-title'>Yahtzee!</h1>
-          
+
           <section className='Game-dice-section'>
             <Dice
               dice={this.state.dice}
               locked={this.state.locked}
+              isRolling={this.state.isRolling}
               handleClick={this.toggleLocked}
             />
             <div className='Game-button-wrapper'>
